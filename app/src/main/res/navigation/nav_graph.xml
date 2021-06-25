@@ -9,5 +9,29 @@
         android:id="@+id/configurationFragment"
         android:name="com.brain.test.matching.game.ui.config.ConfigurationFragment"
         android:label="fragment_configuration"
-        tools:layout="@layout/fragment_configuration" />
+        tools:layout="@layout/fragment_configuration">
+        <action
+            android:id="@+id/action_configurationFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.brain.test.matching.game.ui.gameplay.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game">
+        <action
+            android:id="@+id/action_gameFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.brain.test.matching.game.ui.result.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result">
+        <action
+            android:id="@+id/action_resultFragment_to_configurationFragment"
+            app:destination="@id/configurationFragment"
+            app:popUpTo="@id/configurationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
