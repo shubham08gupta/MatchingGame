@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Matching Game</string>
+    <string name="title_select_a_timer">Select a timer</string>
+    <string name="action_decrease_time">-</string>
+    <string name="action_increase_time">+</string>
+    <string name="action_start_game">Start</string>
 </resources>
