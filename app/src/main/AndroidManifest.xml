@@ -3,6 +3,7 @@
     package="com.brain.test.matching.game">
 
     <application
+        android:name=".MatchingGameApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
