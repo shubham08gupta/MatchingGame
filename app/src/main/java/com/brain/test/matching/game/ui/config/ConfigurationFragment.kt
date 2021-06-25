@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.brain.test.matching.game.R
 import com.brain.test.matching.game.databinding.FragmentConfigurationBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,11 @@ class ConfigurationFragment : Fragment(R.layout.fragment_configuration) {
                 viewModel.increaseTimer()
             }
             btnStart.setOnClickListener {
-
+                findNavController().navigate(
+                    ConfigurationFragmentDirections.actionConfigurationFragmentToGameFragment(
+                        viewModel.timerStateFlow.value
+                    )
+                )
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
