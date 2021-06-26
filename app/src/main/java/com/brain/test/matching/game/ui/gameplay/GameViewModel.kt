@@ -7,11 +7,15 @@ import com.brain.test.matching.game.ui.util.TimerState
 import com.brain.test.matching.game.ui.util.TimerUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class GameViewModel @AssistedInject constructor(
     @Assisted private val timer: Int,
 ) : ViewModel() {
+
+    private val _currentPointsStateFlow = MutableStateFlow(0)
+    val currentPointsStateFlow: StateFlow<Int> get() = _currentPointsStateFlow
 
     private val timerIntent = TimerUseCase(viewModelScope)
     val timerStateFlow: StateFlow<TimerState> = timerIntent.timerStateFlow
@@ -23,6 +27,7 @@ class GameViewModel @AssistedInject constructor(
     fun restartTimer() {
         timerIntent.toggleStartOrStop(timer * 60) // stop the timer
         timerIntent.toggleStartOrStop(timer * 60) // start the timer again
+        _currentPointsStateFlow.value = 0
     }
 
     /***

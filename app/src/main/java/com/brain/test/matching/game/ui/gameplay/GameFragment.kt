@@ -33,6 +33,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             gameViewModel.timerStateFlow.collectLatest {
                 binding.progressBar.max = it.totalSeconds
                 binding.progressBar.progress = it.secondsRemaining ?: 0
+                binding.tvTimeRemaining.text = it.displaySeconds.plus(" sec remaining")
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            gameViewModel.currentPointsStateFlow.collectLatest { points ->
+                binding.tvTotalPoints.text = points.toString().plus(" points")
             }
         }
         binding.btnRestart.setOnClickListener {
