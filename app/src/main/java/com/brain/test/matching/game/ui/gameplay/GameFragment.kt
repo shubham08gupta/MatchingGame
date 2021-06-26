@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.brain.test.matching.game.R
 import com.brain.test.matching.game.databinding.FragmentGameBinding
@@ -53,7 +54,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             gameViewModel.isGameFinishedStateFlow.collect { isGameFinished ->
-
+                if (isGameFinished) {
+                    findNavController().navigate(
+                        GameFragmentDirections.actionGameFragmentToResultFragment(
+                            score = gameViewModel.currentPointsStateFlow.value,
+                            timeLeft = gameViewModel.timerStateFlow.value.secondsRemaining ?: 0
+                        )
+                    )
+                }
             }
         }
         binding.btnRestart.setOnClickListener {

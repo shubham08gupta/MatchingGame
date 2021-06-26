@@ -36,5 +36,11 @@
             app:destination="@id/configurationFragment"
             app:popUpTo="@id/configurationFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="score"
+            app:argType="integer" />
+        <argument
+            android:name="timeLeft"
+            app:argType="integer" />
     </fragment>
 </navigation>
