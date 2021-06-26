@@ -2,6 +2,7 @@ package com.brain.test.matching.game.ui.result
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -25,6 +26,8 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
                 ResultFragmentDirections.actionResultFragmentToConfigurationFragment()
             )
         }
-
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
+            binding.btnRestart.performClick()
+        }
     }
 }
