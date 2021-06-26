@@ -2,13 +2,23 @@ package com.brain.test.matching.game.ui.gameplay
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.brain.test.matching.game.ui.util.TimerState
+import com.brain.test.matching.game.ui.util.TimerUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.StateFlow
 
 class GameViewModel @AssistedInject constructor(
     @Assisted private val timer: Int,
 ) : ViewModel() {
 
+    private val timerIntent = TimerUseCase(viewModelScope)
+    val timerStateFlow: StateFlow<TimerState> = timerIntent.timerStateFlow
+
+    init {
+        timerIntent.toggleStartOrStop(timer * 60)
+    }
 
     /***
      * Use an assisted factory to inject manual parameters
