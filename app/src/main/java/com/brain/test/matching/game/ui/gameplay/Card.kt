@@ -10,7 +10,7 @@ data class Card(
 )
 
 sealed class CardState {
-    object UnClickable : CardState()
+    object UnClickable : CardState() // state when the cards are matched(a.k.a.success state)
     sealed class Clickable : CardState() {
         object ImageShown : Clickable() // clickable and image shown
         object ImageHidden : Clickable() // clickable but image hidden

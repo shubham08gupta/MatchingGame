@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.brain.test.matching.game.R
 import com.brain.test.matching.game.databinding.FragmentGameBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
@@ -48,6 +49,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             gameViewModel.cardsListStateFlow.collectLatest { cardsList ->
                 cardAdapter.submitList(cardsList)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            gameViewModel.isGameFinishedStateFlow.collect { isGameFinished ->
+
             }
         }
         binding.btnRestart.setOnClickListener {

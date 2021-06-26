@@ -9,8 +9,7 @@ import com.brain.test.matching.game.ui.util.TimerUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class GameViewModel @AssistedInject constructor(
@@ -26,6 +25,20 @@ class GameViewModel @AssistedInject constructor(
 
     private val _cardsListStateFlow = MutableStateFlow<List<Card>>(emptyList())
     val cardsListStateFlow: StateFlow<List<Card>> get() = _cardsListStateFlow
+
+    /***
+     * move
+     */
+    val isGameFinishedStateFlow: StateFlow<Boolean> = combine(
+        timerStateFlow,
+        cardsListStateFlow
+    ) { timer, cardsList ->
+        // the game is finished when the timer is over or all the cards are opened and un-clickable
+        timer.secondsRemaining == null || cardsList.all { it.state == CardState.UnClickable }
+    }.flowOn(dispatcher) // move heavy computations to a different thread
+        // sharing will not stop if there is a new subscriber withing 5 secs. This handles
+        // rotation scenario efficiently
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     init {
         startGame()
