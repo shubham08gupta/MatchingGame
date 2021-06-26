@@ -19,6 +19,9 @@ import javax.inject.Inject
 class GameFragment : Fragment(R.layout.fragment_game) {
 
     private val navArgs: GameFragmentArgs by navArgs()
+    private val cardAdapter = GameAdapter {
+        gameViewModel.onCardClicked(it)
+    }
 
     @Inject
     lateinit var gameViewModelFactory: GameViewModel.AssistedFactory
@@ -29,6 +32,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentGameBinding.bind(view)
+        binding.rvCards.adapter = cardAdapter
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             gameViewModel.timerStateFlow.collectLatest {
                 binding.progressBar.max = it.totalSeconds
@@ -41,8 +45,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 binding.tvTotalPoints.text = points.toString().plus(" points")
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            gameViewModel.cardsListStateFlow.collectLatest { cardsList ->
+                cardAdapter.submitList(cardsList)
+            }
+        }
         binding.btnRestart.setOnClickListener {
-            gameViewModel.restartTimer()
+            gameViewModel.restartGame()
         }
     }
 }
