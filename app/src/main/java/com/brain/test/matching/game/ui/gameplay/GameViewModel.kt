@@ -20,6 +20,11 @@ class GameViewModel @AssistedInject constructor(
         timerIntent.toggleStartOrStop(timer * 60)
     }
 
+    fun restartTimer() {
+        timerIntent.toggleStartOrStop(timer * 60) // stop the timer
+        timerIntent.toggleStartOrStop(timer * 60) // start the timer again
+    }
+
     /***
      * Use an assisted factory to inject manual parameters
      */
